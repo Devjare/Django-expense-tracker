@@ -1,6 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.list import ListView
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework import viewsets
@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from .models import Book, Category
 from .serializers import BookSerializer, CategorySerializer
 from .forms import CSVFileForm
+from .util import create_from_csv
 
 import csv
 
@@ -55,11 +56,11 @@ def batch_upload_view(request):
     if request.method == "POST":
         form = CSVFileForm(request.POST, request.FILES)
         if form.is_valid():
-            csv_file = request.FILES['csv_file'].read().decode('utf-8').splitlines()
-            csv_reader = csv.DictReader(csv_file)
+            print("Valid form")
+            csv_file = request.FILES['file'].read().decode('utf-8').splitlines()
+            create_from_csv(csv_file)
 
-            return redirect("success_page")
+            return JsonResponse({ "success": "Successfully uploaded file." })
         else:
-            print("Invalid form errors: ", form.errors.as_json())
-            return HttpResponse("<h5>Failed to upload form...</h5>")
+            return JsonResponse(form.errors.as_json(), safe=False)
             
