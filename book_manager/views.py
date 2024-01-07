@@ -46,6 +46,12 @@ class BookListView(viewsets.ViewSet):
         queryset = Book.objects.all()
         serializer = BookSerializer(queryset, many=True)
         return Response(serializer.data)
+
+    def create(self, request):
+        queryset = Book.objects.all()
+        serializer = BookSerializer(queryset, many=True)
+        return Response(serializer.data)
+
     
 
 @csrf_exempt

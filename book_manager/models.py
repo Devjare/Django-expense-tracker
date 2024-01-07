@@ -27,6 +27,7 @@ class Book(models.Model):
     publisher: models.CharField = models.CharField(max_length=100, default="")
     authors: models.CharField = models.CharField(max_length=200, default="")
     category: models.CharField = models.CharField(max_length=100, default="")
+
     
     # publisher: models.ForeignKey = models.ForeignKey(to=Publisher, on_delete=models.PROTECT)
     # authors: models.ManyToManyField = models.ManyToManyField(Author)
