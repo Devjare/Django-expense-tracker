@@ -16,17 +16,14 @@ function Header() {
 
   return (
     <nav className="md:mx-auto bg-green-800 p-2 w-full">
-      <NavLink className={({ isActive, isPending }) => setNavClassList(isActive, isPending)} to="/">
-        Home
-      </NavLink>
       <NavLink 
       id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar"
       className={({ isActive, isPending }) => setNavClassList(isActive, isPending) } 
       to="/books">
         Books
       </NavLink>
-      <NavLink className={({ isActive, isPending }) => setNavClassList(isActive, isPending)} to="/contact">
-        Contact
+      <NavLink className={({ isActive, isPending }) => setNavClassList(isActive, isPending)} to="/reports">
+        Reports
       </NavLink>
     </nav>
   );

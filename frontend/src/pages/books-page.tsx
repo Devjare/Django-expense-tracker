@@ -57,10 +57,10 @@ export default function BooksPage() {
   }
     
   return (
-    <div className='md:container md:mx-auto p-2'>
+    <div className='md:container md:mx-auto p-2 mb-5'>
         <div id="booksList" className='relative overflow-x-auto shadow-md md:rounded-lg'>
           <table className='w-full text-sm text-left rtl:text-right text-gray-500'>
-            <thead className='text-xs text-gray-700 uppercase bg-gray-50'>
+            <thead className='text-xs text-gray-100 uppercase dark:bg-gray-800'>
               <tr>
                 <th scope="col" className="p-4">
                   <div className='flex items-center'>
@@ -73,6 +73,8 @@ export default function BooksPage() {
                 <th scope="col" className='px-6 py-3'>Published date</th>
                 <th scope="col" className='px-6 py-3'>Authors</th>
                 <th scope="col" className='px-6 py-3'>Categories</th>
+                <th scope="col" className='px-6 py-3'>Publisher</th>
+                <th scope="col" className='px-6 py-3'>Distribution Expense</th>
                 <th scope="col" className='px-6 py-3'>Actions</th>
               </tr>
             </thead>

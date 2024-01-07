@@ -47,7 +47,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <Header />
       <Routes>
-        <Route path="/" element={<App />}/>
+        <Route path="/" element={<BooksPage />}/>
         <Route path="/books" element={<BooksPage />}/>
       </Routes>
       <Footer />
