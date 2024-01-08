@@ -15,6 +15,7 @@ import {
 
 import App from './App.tsx'
 import BooksPage from './pages/books-page.tsx'
+import UploadBookPage from './pages/upload-books.tsx'
 
 // This type of router with "createBrowserRouter", does not allow to use the common "Header" and "Footer",
 // Since it would need to be added to each element, wether in the definition of the router below or in each react component / page
@@ -49,6 +50,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <Routes>
         <Route path="/" element={<BooksPage />}/>
         <Route path="/books" element={<BooksPage />}/>
+        <Route path="/batch-upload-books" element={<UploadBookPage />}/>
       </Routes>
       <Footer />
     </BrowserRouter>

@@ -13,11 +13,11 @@ export default function BookRow({ book } : IBookRowProps) : JSX.Element {
           <label htmlFor="checkbox-table-search-1" className="sr-only">checkbox</label>
         </div>
       </td>
-      <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap truncate">{book.title}</th>
+      <th scope="row" className="px-6 py-4 font-medium text-gray-900 truncate">{book.title}</th>
       <td className="px-6 py-4 truncate">{book.subtitle}</td>
       <td className="px-6 py-4 truncate">{book.published_date}</td>
-      <td className="px-6 py-4 truncate">{book.authors}</td>
-      <td className="px-6 py-4 truncate">{book.categories}</td>
+      <td className="px-6 py-4 truncate">{book.authors.join()}</td>
+      <td className="px-6 py-4 truncate">{book.category}</td>
       <td className="px-6 py-4 truncate">{book.publisher}</td>
       <td className="px-6 py-4 truncate">{book.distribution_expense}</td>
       <td className="flex items-center px-6 py-4">

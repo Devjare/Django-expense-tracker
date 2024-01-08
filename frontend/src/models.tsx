@@ -6,5 +6,5 @@ export type Book = {
     distribution_expense : number;
     publisher: string;
     authors: string;
-    categories: string;
+    category: string;
 }

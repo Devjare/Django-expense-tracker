@@ -37,10 +37,10 @@ export default function UploadBookPage() {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="csvData">Input CSV File: </label>
-        <input id="csvData" name="csvData" type="file" onChange={handleInputChange} />
-        <button type="submit">Submit file</button>
+      <form onSubmit={handleSubmit}> 
+        <label className="block mb-2 text-sm font-medium text-gray-900" htmlFor="csvData">Upload file</label>
+        <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" id="csvData" type="file" onChange={handleInputChange} />
+        <button className='bg-blue-700 text-white hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm sm:w-auto px-3 py-2 text-center' type="submit">Submit file</button>
       </form>
     </div>
   )

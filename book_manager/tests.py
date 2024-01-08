@@ -9,8 +9,6 @@ class AuthorTestCase(TestCase):
     def test_create_author(self):
         author_info = {
             "author_name": "lazy_weeb",
-            "first_name": "Andres",
-            "last_name": "Reyna",
         }
         
         Author(**author_info).save()
@@ -18,32 +16,24 @@ class AuthorTestCase(TestCase):
         author = Author.objects.filter(author_name=author_info['author_name'])[0]
         
         self.assertEqual(author_info['author_name'], author.author_name)
-        self.assertEqual(author_info['first_name'], author.first_name)
-        self.assertEqual(author_info['last_name'], author.last_name) 
 
 class BookTestCase(TestCase):
 
     def setUp(self):
         author_info = {
             "author_name": "lazy_weeb",
-            "first_name": "Andres",
-            "last_name": "Reyna",
         }
         author = Author(**author_info)
         author.save()
         
         author_info = {
             "author_name": "Devjare",
-            "first_name": "Jose Andres",
-            "last_name": "Reyna Espinoza",
         }
         author = Author(**author_info)
         author.save()
         
         author_info = {
             "author_name": "JEspinoza",
-            "first_name": "Jose",
-            "last_name": "Espinoza",
         }
         author = Author(**author_info)
         author.save()

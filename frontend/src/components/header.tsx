@@ -22,6 +22,12 @@ function Header() {
       to="/books">
         Books
       </NavLink>
+      <NavLink 
+      id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar"
+      className={({ isActive, isPending }) => setNavClassList(isActive, isPending) } 
+      to="/batch-upload-books">
+        Batch Upload Books
+      </NavLink>
       <NavLink className={({ isActive, isPending }) => setNavClassList(isActive, isPending)} to="/reports">
         Reports
       </NavLink>
