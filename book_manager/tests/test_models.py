@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import *
+from book_manager.models import *
 
 import datetime
 
@@ -8,54 +8,51 @@ class AuthorTestCase(TestCase):
 
     def test_create_author(self):
         author_info = {
-            "author_name": "lazy_weeb",
+            "name": "lazy_weeb",
         }
         
         Author(**author_info).save()
 
-        author = Author.objects.filter(author_name=author_info['author_name'])[0]
+        author = Author.objects.filter(name=author_info['name'])[0]
         
-        self.assertEqual(author_info['author_name'], author.author_name)
+        self.assertEqual(author_info['name'], author.name)
 
 class BookTestCase(TestCase):
 
     def setUp(self):
         author_info = {
-            "author_name": "lazy_weeb",
+            "name": "lazy_weeb",
         }
         author = Author(**author_info)
         author.save()
         
         author_info = {
-            "author_name": "Devjare",
+            "name": "Devjare",
         }
         author = Author(**author_info)
         author.save()
         
         author_info = {
-            "author_name": "JEspinoza",
+            "name": "JEspinoza",
         }
         author = Author(**author_info)
         author.save()
         
         publisher_info = {
             "name": "Lazyness Unlocked",
-            "address": "Unfathomable Street #108",
         }
         publisher = Publisher(**publisher_info)
         publisher.save()
         
         category_info = {
-            "name": "Sci-fi",
-            "description": """Uninimaginable adventures, flashing lights, space, 
-            sea depth, dangers everywhere. Everything is possible on this genre.""",
+            "name": "Sci-fi"
         }
         category = Category(**category_info)
         category.save()
     
     def test_book_create_single_author(self):
         category = Category.objects.filter(name="Sci-fi")[0]
-        author = Author.objects.filter(author_name="lazy_weeb")[0]
+        author = Author.objects.filter(name="lazy_weeb")[0]
         publisher = Publisher.objects.filter(name="Lazyness Unlocked")[0]
 
         book_info = {
@@ -77,13 +74,13 @@ class BookTestCase(TestCase):
         self.assertEqual(book.publisher, book_info['publisher'])
         self.assertEqual(book.published_date, book_info['published_date'])
         self.assertEqual(book.distribution_expense, book_info['distribution_expense'])
-        self.assertEqual(book.authors.all()[0].author_name, author.author_name)
+        self.assertEqual(book.authors.all()[0].name, author.name)
     
     def test_book_create_multiple_authors(self):
         category = Category.objects.filter(name="Sci-fi")[0]
-        first_author = Author.objects.filter(author_name="lazy_weeb")[0]
-        second_author = Author.objects.filter(author_name="Devjare")[0]
-        third_author = Author.objects.filter(author_name="JEspinoza")[0]
+        first_author = Author.objects.filter(name="lazy_weeb")[0]
+        second_author = Author.objects.filter(name="Devjare")[0]
+        third_author = Author.objects.filter(name="JEspinoza")[0]
         publisher = Publisher.objects.filter(name="Lazyness Unlocked")[0]
 
         book_info = {
@@ -107,7 +104,7 @@ class BookTestCase(TestCase):
         self.assertEqual(book.publisher, book_info['publisher'])
         self.assertEqual(book.published_date, book_info['published_date'])
         self.assertEqual(book.distribution_expense, book_info['distribution_expense'])
-        self.assertEqual(book.authors.filter(author_name="lazy_weeb")[0].author_name, first_author.author_name)
-        self.assertEqual(book.authors.filter(author_name="Devjare")[0].author_name, second_author.author_name)
-        self.assertEqual(book.authors.filter(author_name="JEspinoza")[0].author_name, third_author.author_name)
+        self.assertEqual(book.authors.filter(name="lazy_weeb")[0].name, first_author.name)
+        self.assertEqual(book.authors.filter(name="Devjare")[0].name, second_author.name)
+        self.assertEqual(book.authors.filter(name="JEspinoza")[0].name, third_author.name)
     

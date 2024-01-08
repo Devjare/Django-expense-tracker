@@ -26,9 +26,62 @@ export default function BooksPage() {
         })
     }
   }, [currentPage])
-   
+  
+  const saveForm = () => {
+    console.log("Form submitted!")
+  }
+
+  const renderCategories = () => {
+    return (
+      <select id="select-category" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        <option selected>Choose a category</option>
+        <option value="US">United States</option>
+        <option value="CA">Canada</option>
+        <option value="FR">France</option>
+        <option value="DE">Germany</option>
+      </select>
+    )
+  }
+  
+  const renderPublishers = () => {
+    return (
+      <select id="select-publishers" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        <option selected>Choose a publisher</option>
+        <option value="US">United States</option>
+        <option value="CA">Canada</option>
+        <option value="FR">France</option>
+        <option value="DE">Germany</option>
+      </select>
+    )
+  }
+  
+  const renderAuthors = () => {
+    return (
+      <div>
+        <label htmlFor='select-authors'>Select authors</label> 
+        <select id="select-authors" multiple className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+          <option value="US">United States</option>
+          <option value="CA">Canada</option>
+          <option value="FR">France</option>
+          <option value="DE">Germany</option>
+        </select>
+      </div>
+    )
+  }
+
   return (
     <div className='md:container md:mx-auto p-2 mb-5'>
+        <div id="bookForm">
+          <form id="book-form" onSubmit={saveForm}>
+            <input type="text" placeholder='Title'/>
+            <input type="text" placeholder='Subtitle'/>
+            <input type="text" placeholder='Distribution Expense'/>
+            { renderCategories() }
+            { renderPublishers() }
+            { renderAuthors() }
+            <button className="bg-blue-700 text-white rounded-lg p-2">Save</button>
+          </form>
+        </div>
         <div id="booksList" className='relative overflow-x-auto shadow-md md:rounded-lg'>
           <table className='w-full text-sm text-left rtl:text-right text-gray-500'>
             <thead className='text-xs text-gray-100 uppercase dark:bg-gray-800'>

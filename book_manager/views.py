@@ -1,13 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic.list import ListView
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from .models import Book, Category
-from .serializers import BookSerializer, CategorySerializer
+from .models import Book, Category, Author, Publisher
+from .serializers import BookSerializer, CategorySerializer, AuthorSerializer, PublisherSerializer
+
 from .forms import CSVFileForm
 from .util import create_from_csv
 
@@ -17,42 +17,21 @@ def home(request):
     return HttpResponse("<h5>Homepage!</h5>")
 
 # Read only views. Handle retrieve tasks.
-class BookCategoryView(viewsets.ViewSet):
-    """
-    Book category viewset.
-    """ 
-    def list(self, request):
-        queryset = Category.objects.all()
-        serializer = CategorySerializer(queryset, many=True)
-        return Response(serializer.data)
-    
-    def retrieve(self, request, pk=None):
-        queryset = Category.objects.all()
-        category = get_object_or_404(queryset, pk=pk)
-        serializer = CategorySerializer(category)
-        return Response(serializer.data)
+class CategoriesViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
 
-class BookListView(viewsets.ViewSet):
-    """
-    Book category viewset.
-    """ 
-    def retrieve(self, request, pk=None):
-        queryset = Book.objects.all()
-        category = get_object_or_404(queryset, pk=pk)
-        serializer = BookSerializer(category)
-        return Response(serializer.data)
-    
-    def list(self, request):
-        queryset = Book.objects.all()
-        serializer = BookSerializer(queryset, many=True)
-        return Response(serializer.data)
+class PublishersViewSet(viewsets.ModelViewSet):
+    queryset = Publisher.objects.all()
+    serializer_class = PublisherSerializer
 
-    def create(self, request):
-        queryset = Book.objects.all()
-        serializer = BookSerializer(queryset, many=True)
-        return Response(serializer.data)
+class AuthorsViewSet(viewsets.ModelViewSet):
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
 
-    
+class BooksViewSet(viewsets.ModelViewSet):
+    queryset = Book.objects.all().order_by('-id')
+    serializer_class = BookSerializer
 
 @csrf_exempt
 def batch_upload_view(request):
