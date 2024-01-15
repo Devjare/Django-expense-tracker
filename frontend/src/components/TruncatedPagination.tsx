@@ -9,7 +9,6 @@ export type PaginationProps = {
   onPageChange : Function;
 }
 
-
 export default function TruncatedPagination({ totalCount, siblingCount, currentPage, pageSize, onPageChange } : PaginationProps) {  
 
   useEffect(() => {
