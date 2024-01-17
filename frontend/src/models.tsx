@@ -5,6 +5,6 @@ export type Book = {
     published_date: string;
     distribution_expense : number;
     publisher: string;
-    authors: string;
+    authors: string[];
     category: string;
 }
