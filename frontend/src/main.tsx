@@ -13,6 +13,7 @@ import {
 
 import BooksPage from './pages/books-page.tsx'
 import UploadBookPage from './pages/upload-books.tsx'
+import ReportsPage from './pages/reports.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -22,6 +23,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/" element={<BooksPage />}/>
         <Route path="/books" element={<BooksPage />}/>
         <Route path="/batch-upload-books" element={<UploadBookPage />}/>
+        <Route path="/reports" element={<ReportsPage />}/>
       </Routes>
       <Footer />
     </BrowserRouter>

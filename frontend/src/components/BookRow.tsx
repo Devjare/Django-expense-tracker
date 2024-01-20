@@ -1,9 +1,4 @@
-import { Book } from "../models"
-
-interface IBookRowProps {
-  book: Book;
-  setEditForm: (params: any) => any;
-}
+import { Book, IBookRowProps } from "../types"
 
 export default function BookRow({ book, setEditForm } : IBookRowProps) : JSX.Element {
   return (

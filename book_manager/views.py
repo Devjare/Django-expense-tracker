@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+    
+from django.db.models import Sum
 
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -16,7 +18,6 @@ import csv
 def home(request):
     return HttpResponse("<h5>Homepage!</h5>")
 
-# Read only views. Handle retrieve tasks.
 class CategoriesViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
@@ -32,6 +33,41 @@ class AuthorsViewSet(viewsets.ModelViewSet):
 class BooksViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all().order_by('-id')
     serializer_class = BookSerializer
+
+
+def get_publishers_report(request):
+    # Aggregate distribution expenses per book and group by publisher and category
+    publisher_expenses = (
+        Book.objects
+        .values('publisher__name', 'category__name')
+        .annotate(total_expense=Sum('distribution_expense'))
+    )
+    
+    # Now, aggregate the total distribution expense per publisher
+    result = {}
+    for expense in publisher_expenses:
+        publisher_name = expense['publisher__name']
+        category_name = expense['category__name']
+        total_expense = expense['total_expense']
+    
+        if publisher_name not in result:
+            result[publisher_name] = {'total_expense': 0, 'categories': {}}
+    
+        result[publisher_name]['total_expense'] += total_expense
+        result[publisher_name]['categories'][category_name] = total_expense
+    
+    # This will give you a dictionary with publisher names, total expense, and expenses per category
+    return JsonResponse(result)
+
+# class PublisherReportView(APIView):
+# 
+#     def get(self, request, format=None):
+#         publisher
+
+# Report information:
+# Books expense per category, publisher and date period.
+# Publishehr stats: publisher total books, publisher total distribution expense, publisher monthly and yearly expense.
+# Publishehr stats: publisher total books, publisher total distribution expense, publisher monthly and yearly expense.
 
 @csrf_exempt
 def batch_upload_view(request):

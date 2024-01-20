@@ -1,27 +1,8 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
 
-import { Book } from "../models"
+import { Book, BookFormProps, Entity } from "../types"
 import BookRow from "../components/BookRow";
 import TruncatedPagination from '../components/TruncatedPagination';
-
-type entity = {
-  id: string,
-  name: string
-}
-
-type BookFormProps = {
-  categoryList : entity[] | [];
-  authorList : entity[] | [];
-  publisherList : entity[] | [];
-  selectedTitle: string;
-  selectedSubtitle: string;
-  selectedPublishedDate: Date;
-  selectedDE: number;
-  selectedCategory: string;
-  selectedPublisher: string;
-  selectedAuthors: string[];
-  onSaveBook: (params: any) => any;
-}
 
 const BookForm = ({ 
   categoryList = [], 
