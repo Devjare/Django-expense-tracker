@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
-import { ChartData, IDistributionExpenses } from '../types';
+import { ChartData, IDistributionExpenses, PublisherData } from '../types';
 
 import { 
   Chart as ChartJS,
@@ -44,9 +44,19 @@ const generalOptions = {
 };
 
 
+const generateColors = (n: number)  => {
+  const colors = [];
+  
+  for (let i = 0; i < 10; i++) {
+    const randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
+    colors.push(randomColor);
+  }
+  return colors
+}
+
 const PublisherDEChart = ( { publishersData } : IDistributionExpenses ) => {
   
-  const [ selectedPublisher, setSelectedPublisher ] = useState("");
+  const [ selectedPublisher, setSelectedPublisher ] = useState(""); 
   const [ data, setData ] = useState<ChartData>({
     labels: [],
     datasets: [
@@ -54,47 +64,47 @@ const PublisherDEChart = ( { publishersData } : IDistributionExpenses ) => {
         fill: true,
         label: 'Placeholder label',
         data: [],
-        borderColor: ['rgb(53, 162, 235)'],
-        backgroundColor: ['rgba(53, 162, 235, 0.5)'],
+        borderColor: ['#FF89FF'],
+        backgroundColor: ['#142345'],
       },
     ],
   });  
 
   useEffect(() => { 
-  
-    if (publishersData != null) {
-      setSelectedPublisher(Object.keys(publishersData)[0]);
-      generalOptions.plugins.title.text = `${selectedPublisher} distribution expense`
+    if (publishersData != null && Object.keys(publishersData).length > 0) {
 
-      const labels = Object.keys(publishersData[selectedPublisher].categories)
-      const values = Object.values<number>(publishersData[selectedPublisher].categories)
-      setData({
-        labels: labels ? labels : [],
-        datasets: [
-          {
-            fill: true,
-            label: 'Dataset 2',
-            data: values ? values : [],
-            borderColor: ['rgb(53, 162, 235)'],
-            backgroundColor: ['rgba(53, 162, 235, 0.5)'],
-          },
-        ],
-      })
+      if (selectedPublisher != "") {
+        generalOptions.plugins.title.text = `${selectedPublisher} distribution expense`
 
+        const labels = Object.keys(publishersData[selectedPublisher].categories)
+        const values = Object.values<number>(publishersData[selectedPublisher].categories)
+        setData({
+          labels: labels ? labels : [],
+          datasets: [
+            {
+              fill: true,
+              label: 'Dataset 2',
+              data: values ? values : [],
+              borderColor: ['rgb(0, 0, 0)'],
+              backgroundColor: generateColors(labels.length),
+            },
+          ],
+        })
+      }
     }
   }, 
   [selectedPublisher])
 
   return (
-  <div className='flex'>
-      <select id="select-publisher">
+  <div className='flex flex-col'>
+      <select id="select-publisher" className='p-2 mr-2 bg-white rounded-lg shadow-lg' onChange={(e) => {setSelectedPublisher(e.target.value)} }>
         {
-          Object.keys(publishersData).map( 
-          name => <option id={`p-${name}`} value={name}>{name}</option> )
+          publishersData ? Object.keys(publishersData).map( name => <option id={`p-${name}`} value={name}>{name}</option> ) : ""
         }
       </select>
       <Doughnut
         data={data}
+        options={generalOptions}
       />
   </div>
   ) 
@@ -175,28 +185,23 @@ export default function ReportsPage() {
     fetch("http://localhost:8000/reports/publishers/")
     .then((response) => response.json())
     .then(data => {
-        setPublishersData(data);
+        console.log("Obtained publishers data: ")
+        setPublishersData(data)
       })
   }, [])
 
   return (
-    <div className="w-full h-screen p-5">
-      <div className="grid grid-cols-3">
-        <div className="flex">
-          <p>Grid col 1</p>
-        </div>
-        <div className="flex">
-          <p>Grid col 2</p>
-        </div>
-        <div className="flex">
-          <p>Grid col 3</p>
-        </div>
+    <div className="w-full h-screen p-5 flex flex-col">
+      <div className="grid grid-cols-3 p-5"> 
+        <div className="flex"> <p>Grid col 1</p> </div>
+        <div className="flex"> <p>Grid col 2</p> </div>
+        <div className="flex"> <p>Grid col 3</p> </div>
       </div>
-      <div className="grid grid-cols-5">
-        <div className="flex col-span-4">
+      <div className="grid grid-cols-5 p-5">
+        <div className="flex col-span-2">
           <BookSalesChart />
         </div>
-        <div className="flex col-span-1">
+        <div className="flex col-span-3 mr-10">
           <PublisherDEChart publishersData={publishersData}/>
         </div>
       </div>

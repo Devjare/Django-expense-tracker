@@ -41,7 +41,7 @@ export type PublisherData = {
 }
 
 export interface IDistributionExpenses {
-    [publisherName: string]: PublisherData | {};
+    [publisherName: string]: PublisherData | {} | null;
 }
 
 export type ChartData = { 
@@ -52,7 +52,7 @@ export type ChartData = {
         label: string;
         data: number[] | [];
         borderColor: string[];
-        backgroundColor: string[];
+        backgroundColor: string[] | null;
       }
     ]
 }
