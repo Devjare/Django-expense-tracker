@@ -88,3 +88,14 @@ class BooksViewSetTest(TestCase):
     def test_get_created_multi_author_book(self):
         response = Client().get("/books/5/")
         self.assertEqual(response.status_code, 200)
+
+class ReportsViewsTest(TestCase):
+    
+    def test_get_publishers_expenses(self):
+        response = Client().get("/reports/publishers/expenses")
+        self.assertEqual(response.status_code, 200)
+    
+    def test_get_authors_expenses(self):
+        response = Client().get("/reports/authors/expenses")
+        self.assertEqual(response.status_code, 200)
+

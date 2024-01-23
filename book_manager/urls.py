@@ -14,7 +14,8 @@ router.register(r'categories', views.CategoriesViewSet, basename="category")
 urlpatterns = [
     path("", views.home, name="home"),
     path("batch-upload/", views.batch_upload_view, name="batch-upload"),
-    path("reports/publishers/", views.get_publishers_report),
+    path("reports/publishers/expenses/", views.get_publishers_expenses),
+    path("reports/authors/expenses/", views.get_authors_expenses),
     path("", include(router.urls))
     # path("reports/publisher/<int:publisher_id>/", include(router.urls))
     # path("books/", BookView.as_view({ 'get': 'list' }), name="book_list"),

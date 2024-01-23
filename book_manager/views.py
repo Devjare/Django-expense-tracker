@@ -35,7 +35,31 @@ class BooksViewSet(viewsets.ModelViewSet):
     serializer_class = BookSerializer
 
 
-def get_publishers_report(request):
+def get_authors_expenses(request):
+    # Aggregate distribution expenses per book and group by author and category
+    author_expenses = (
+        Book.objects
+        .values('authors__name', 'category__name')
+        .annotate(total_expense=Sum('distribution_expense'))
+    )
+    
+    # Now, aggregate the total distribution expense per author_name
+    result = {}
+    for expense in author_expenses:
+        author_name = expense['authors__name']
+        category_name = expense['category__name']
+        total_expense = expense['total_expense']
+    
+        if author_name not in result:
+            result[author_name] = {'total_expense': 0, 'categories': {}}
+    
+        result[author_name]['total_expense'] += total_expense
+        result[author_name]['categories'][category_name] = total_expense
+    
+    # This will give you a dictionary with author_name names, total expense, and expenses per category
+    return JsonResponse(result)
+
+def get_publishers_expenses(request):
     # Aggregate distribution expenses per book and group by publisher and category
     publisher_expenses = (
         Book.objects
@@ -58,16 +82,6 @@ def get_publishers_report(request):
     
     # This will give you a dictionary with publisher names, total expense, and expenses per category
     return JsonResponse(result)
-
-# class PublisherReportView(APIView):
-# 
-#     def get(self, request, format=None):
-#         publisher
-
-# Report information:
-# Books expense per category, publisher and date period.
-# Publishehr stats: publisher total books, publisher total distribution expense, publisher monthly and yearly expense.
-# Publishehr stats: publisher total books, publisher total distribution expense, publisher monthly and yearly expense.
 
 @csrf_exempt
 def batch_upload_view(request):

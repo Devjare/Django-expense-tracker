@@ -9,8 +9,8 @@ export type BookFormProps = {
   publisherList : Entity[] | [];
   selectedTitle: string;
   selectedSubtitle: string;
-  selectedPublishedDate: Date;
-  selectedDE: number;
+  selectedPublishedDate: string;
+  selectedDE: number | string;
   selectedCategory: string;
   selectedPublisher: string;
   selectedAuthors: string[];
@@ -41,18 +41,38 @@ export type PublisherData = {
 }
 
 export interface IDistributionExpenses {
-    [publisherName: string]: PublisherData | {} | null;
+    [ key: string ]: PublisherData | null | {};
 }
 
-export type ChartData = { 
-      labels: string[],
-      datasets: [
-      {
-        fill: boolean;
-        label: string;
-        data: number[] | [];
-        borderColor: string[];
-        backgroundColor: string[] | null;
-      }
-    ]
+export type ChartData = {
+  labels: string[] | [] | undefined;
+  datasets: {
+    data: number[] | [] | undefined;
+    borderColor: string[] | [] | undefined;
+    backgroundColor: string[] | [] | undefined;
+    label: string;
+    fill: boolean;
+  }[];
+};
+
+export type ChartOptions = {
+  responsive: boolean;
+  maintainAspectRatio: boolean,
+  plugins: {
+    legend: {
+      position: "top" | "left" | "bottom" | "right",
+    },
+    title: {
+      display: boolean,
+      text: string,
+    },
+  },
+};
+
+
+
+export interface IChartProps {
+  publishersData: IDistributionExpenses | {};
+  data: ChartData;
+  options: ChartOptions;
 }

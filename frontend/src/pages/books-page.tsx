@@ -93,9 +93,9 @@ export default function BooksPage() {
   let start = 1
   const [ booksPerPage, setBooksPerPage ] = useState(20);
   
-  const categoryList = useRef<entity[]>([]);
-  const publisherList = useRef<entity[]>([]);
-  const authorList = useRef<entity[]>([]);
+  const categoryList = useRef<Entity[]>([]);
+  const publisherList = useRef<Entity[]>([]);
+  const authorList = useRef<Entity[]>([]);
         
   const [ selectedTitle, setSelectedTitle ] = useState("");
   const [ selectedSubtitle, setSelectedSubtitle ] = useState("");
