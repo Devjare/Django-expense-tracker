@@ -33,15 +33,28 @@ export interface IBookRowProps {
   setEditForm: (params: any) => any;
 }
 
-export type PublisherData = {
+export type ExpenseData = {
     total_expense: number;
     categories: {
         [categoryName: string]: number;
     };
 }
 
+
+
 export interface IDistributionExpenses {
-    [ key: string ]: PublisherData | null | {};
+    [ key: string ]: ExpenseData | null | {};
+}
+
+export type SaleData = {
+  [ id: string ] : {
+    title: string,
+    de: number
+  }
+}
+
+export interface ISalesReport {
+    [ key: string ]: SaleData | null | {};
 }
 
 export type ChartData = {
@@ -60,19 +73,26 @@ export type ChartOptions = {
   maintainAspectRatio: boolean,
   plugins: {
     legend: {
+      display: boolean,
       position: "top" | "left" | "bottom" | "right",
     },
     title: {
       display: boolean,
       text: string,
     },
+    tooltip?: {
+      callbacks?: { 
+        title?: (params: any) => any;
+      }
+    }
+  },
+  interaction?: {
+    intersect?: false,
+    mode?: 'index'
   },
 };
 
-
-
 export interface IChartProps {
-  publishersData: IDistributionExpenses | {};
-  data: ChartData;
-  options: ChartOptions;
+  reportData: IDistributionExpenses | ISalesReport | {};
+  chartTitle?: string | undefined;
 }

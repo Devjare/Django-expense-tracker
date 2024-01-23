@@ -16,6 +16,9 @@ urlpatterns = [
     path("batch-upload/", views.batch_upload_view, name="batch-upload"),
     path("reports/publishers/expenses/", views.get_publishers_expenses),
     path("reports/authors/expenses/", views.get_authors_expenses),
+    path("reports/books/<int:qty>/", views.get_top_n_books_sold),
+    path("reports/authors/<int:qty>/", views.get_top_n_books_by_author_sold),
+    path("reports/publishers/<int:qty>/", views.get_top_n_books_by_publisher_sold),
     path("", include(router.urls))
     # path("reports/publisher/<int:publisher_id>/", include(router.urls))
     # path("books/", BookView.as_view({ 'get': 'list' }), name="book_list"),

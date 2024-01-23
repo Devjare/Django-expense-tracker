@@ -1,40 +1,60 @@
 import React, { useState, useEffect } from 'react';
 import { generateColors } from "../utils";
+import { baseChartData, generalOptions } from '../constants';
 
-import { IChartProps, ChartData, ChartOptions } from '../types';
+import { IChartProps, ChartData } from '../types';
 
-import { Doughnut } from 'react-chartjs-2';
+import { Chart, Doughnut } from 'react-chartjs-2';
+
+import { 
+  Chart as ChartJS,
+  ArcElement,
+  CategoryScale,
+  LinearScale,
+  Title,
+  Tooltip,
+  Filler,
+  Legend,
+} from 'chart.js';
 
 
-const PublisherDEChart = ( { 
-  data: baseChartData, 
-  options: generalOptions, 
-  publishersData: publishersData } : IChartProps ) => {
+ChartJS.register(
+  ArcElement,
+  CategoryScale,
+  LinearScale,
+  Title,
+  Tooltip,
+  Filler,
+  Legend
+);
+
+
+const DEChart = ( { reportData: publishersData, chartTitle: chartTitle } : IChartProps ) => {
   
   const [ selectedPublisher, setSelectedPublisher ] = useState(""); 
   const [ data, setData ] = useState<ChartData>(baseChartData);  
   
-  let updatedOptions = { ...generalOptions };
+  // const updatedOptions = { ...generalOptions };
+  const updatedOptions = JSON.parse(JSON.stringify(generalOptions));
 
   useEffect(() => { 
+    console.log("Rendering Doughnut charts.")
     if (publishersData != null && Object.keys(publishersData).length > 0) {
       if (selectedPublisher != "") {
         updatedOptions.plugins = updatedOptions.plugins || {};
         updatedOptions.plugins.title = updatedOptions.plugins.title || {};
         updatedOptions.plugins.title.text = `${selectedPublisher} distribution expense`;
-
-        console.log("Publishers data: ")
-        console.log(typeof publishersData)
-    
+        
+        updatedOptions.plugins.tooltip = updatedOptions.plugins.tooltip || {};
+        updatedOptions.plugins.tooltip.callbacks = updatedOptions.plugins.tooltip.callbacks || {};
+        updatedOptions.plugins.tooltip.callbacks.title = (tooltipItem) => tooltipItem.label;
+      
         const selectedData = publishersData[selectedPublisher];
           
         if ('categories' in selectedData) {
 
           const labels = Object.keys(selectedData.categories);
           const values = Object.values<number>(selectedData.categories);
-
-          console.log(labels)
-          console.log(values)
 
           setData({
             labels: labels ? labels : [],
@@ -59,10 +79,12 @@ const PublisherDEChart = ( {
         className='max-w-lg p-2 mr-2 bg-white rounded-lg shadow-lg'
         onChange={(e) => {setSelectedPublisher(e.target.value)} }>
         {
-          publishersData ? Object.keys(publishersData).map( name => <option id={`p-${name}`} value={name}>{name}</option> ) : ""
+          Object.keys(publishersData).length != 0 ? Object.keys(publishersData).map( name => <option key={name} id={`p-${name}`} value={name}>{name}</option> ) : ""
         }
       </select>
-      <Doughnut
+      <Chart
+        id={chartTitle}
+        type="doughnut"
         data={data}
         options={updatedOptions}
       />
@@ -70,4 +92,4 @@ const PublisherDEChart = ( {
   ) 
 }
 
-export default PublisherDEChart;
+export default DEChart;

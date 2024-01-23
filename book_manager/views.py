@@ -35,6 +35,51 @@ class BooksViewSet(viewsets.ModelViewSet):
     serializer_class = BookSerializer
 
 
+def get_top_n_books_sold(request, qty):
+    # Return the top n, books sold
+    
+    # -distribution_expense is desc order, while distribution_expense without the '-' is asc order.
+    queryset = Book.objects.all().order_by("-distribution_expense")[:qty]
+    top_n_books_sold = { 
+        book.id: { 
+            "title": book.title, 
+            "de": book.distribution_expense  
+        } for book in queryset }
+
+    return JsonResponse(top_n_books_sold)
+
+def get_top_n_books_by_author_sold(request, qty):
+    """
+    Get the top `qty` authors given the *amount* of books sold.
+    """
+    
+    queryset = Author.objects.annotate(de=Sum('book__distribution_expense')).order_by('-de')[:qty]
+
+    top_qty_authors = {}
+    for author in queryset:
+        top_qty_authors[author.id] = {
+            'name': author.name,
+            'de': author.de
+        }
+
+    return JsonResponse(top_qty_authors)
+
+def get_top_n_books_by_publisher_sold(request, qty):
+    """
+    Get the top `qty` authors given the *amount* of books sold.
+    """
+    
+    queryset = Publisher.objects.annotate(de=Sum('book__distribution_expense')).order_by('-de')[:qty]
+
+    top_qty_publishers = {}
+    for publisher in queryset:
+        top_qty_publishers[publisher.id] = {
+            'name': publisher.name,
+            'de': publisher.de
+        }
+
+    return JsonResponse(top_qty_publishers)
+
 def get_authors_expenses(request):
     # Aggregate distribution expenses per book and group by author and category
     author_expenses = (
