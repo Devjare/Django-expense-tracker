@@ -1,0 +1,14 @@
+version: "3"
+services:
+  backend:
+    container_name: expense-tracker-backend
+    build: .
+    ports:
+      - 5000:5000
+    tty: true
+  frontend:
+    container_name: expense-tracker-frontend
+    build: ./frontend
+    ports:
+      - 5173:5173
+    tty: true
