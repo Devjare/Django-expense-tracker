@@ -1,7 +1,7 @@
 version: "3"
 services:
   backend:
-    container_name: expense-tracker-backend
+    container_nam: expense-tracker-backend
     build: .
     ports:
       - 8000:8000

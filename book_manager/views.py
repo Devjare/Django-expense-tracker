@@ -140,6 +140,7 @@ def batch_upload_view(request):
             csv_file = request.FILES['file'].read().decode('utf-8').splitlines()
             create_from_csv(csv_file)
 
+
             return JsonResponse({ "success": "Successfully uploaded file." })
         else:
             return JsonResponse(form.errors.as_json(), safe=False)
